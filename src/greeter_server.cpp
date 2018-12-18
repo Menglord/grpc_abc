@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <thread>
+#include <chrono>
 
 #include <grpcpp/grpcpp.h>
 
@@ -10,11 +12,16 @@ using grpc::Server;
 using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
+using helloworld::HelloRequest;
+using helloworld::HelloReply;
+using helloworld::Greeter;
 
 class GreeterServiceImpl final : public Greeter::Service {
 	Status SayHello(ServerContext* context, const HelloRequest* request, HelloReply* reply) override {
 		std::string prefix("Hello ");
 		reply->set_message(prefix + request->name());
+		std::cout << "Current Thread id: " << std::this_thread::get_id() << std::endl;
+		std::this_thread::sleep_for(std::chrono::seconds(1));
 		return Status::OK;
 	}
 };

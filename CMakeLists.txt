@@ -5,7 +5,6 @@ set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -march=native -O3 -pthread" 
 set(BINARY_DIR ${PROJECT_SOURCE_DIR}/devel)
 
 include_directories(./src)
-add_subdirectory(./src)
 
 find_package(PkgConfig REQUIRED)
 
@@ -58,7 +57,7 @@ endforeach()
  
 set_source_files_properties(${${GRPC_SRCS}} ${${GRPC_HRDS}} PROPERTIES GENERATED TRUE)
 
-foreach(_target greeter_client greeter_server)
+foreach(_target greeter_client greeter_server greeter_async_client greeter_async_server)
   add_executable(${_target} "src/${_target}.cpp" ${GRPC_SRCS})
   target_link_libraries(${_target}
     ${PROTOBOF_LIBRARIES}
@@ -67,3 +66,7 @@ foreach(_target greeter_client greeter_server)
     ${GRPCPP_UNSECURE_LIBRARIES} 
     ${GRPCPP_LIBRARIES})
 endforeach()
+
+#add_subdirectory(./src)
+
+
